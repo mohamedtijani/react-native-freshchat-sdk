@@ -2,11 +2,35 @@ Freshchat iOS SDK - Powered by Freshdesk
 
 Documentation   : https://support.freshchat.com
 Support Email   : support@freshchat.com
-Version         : 1.5.8.1
+Version         : 2.2.0
 
-Ver 1.5.8.1 
+Ver 2.2.0 
 __________________________
-Release v1.5.8.1
+Enhancements:
+- Ability to configure custom response expectations and away message for channels.
+- Config to hide response time.
+Fix:
+- Fix stale cache of response time.
+
+Ver 2.1.0 
+__________________________
+Enhancement
+- Ability to mask sensitive data present in user message
+
+Ver 2.0.0 
+__________________________
+Enhancements
+- Ability to intercept all external links
+- Securely identify and restore users using Id Tokens (JWT)
+- Ability to intercept Freshchat notification
+- Ability to listen to Freshchat events like message sent, message received, etc.
+
+Ver 1.5.6 
+__________________________
+Enhancement:
+- Ability to hide historical response time.
+Change:
+- Updated FAQ helpful prompt string to “Was this FAQ helpful?”.
 
 Ver 1.5.5 
 __________________________
@@ -34,7 +58,7 @@ Ver 1.5.0
 __________________________
 Support for auto expiring Customer Satisfaction Surveys
 Add support for overriding CSAT survey's question
-Action name for unread count API changed to FRESHCHAT_UNREAD_MESSAGE_COUNT_CHANGED
+Action name for unread count API  changed to FRESHCHAT_UNREAD_MESSAGE_COUNT_CHANGED
 
 Ver 1.4.6 
 __________________________
@@ -43,7 +67,7 @@ Make push prompt configurable
 
 Ver 1.4.5 
 __________________________
-Fix marketing campaign notification
+Fix marketing campaign notifications not showing when app is open
 
 Ver 1.4.4 
 __________________________
@@ -51,7 +75,7 @@ Display files sent by user from other platforms
 
 Ver 1.4.3 
 __________________________
-Fix for duplicate first message
+Fix rare issue with first user message displaying twice over
 
 Ver 1.4.2 
 __________________________

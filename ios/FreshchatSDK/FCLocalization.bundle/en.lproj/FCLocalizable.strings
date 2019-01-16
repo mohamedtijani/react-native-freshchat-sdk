@@ -12,7 +12,7 @@
 "faq_feature_not_enabled_text"="FAQ feature is disabled";
 
 /* Article UpVote DownVote */
-"article_vote_prompt_text"="Did we address your concerns?";
+"article_vote_prompt_text"="Was this FAQ helpful?";
 "article_vote_prompt_yes_button_text"="Yes";
 "article_vote_prompt_no_button_text"="No";
 
@@ -138,4 +138,7 @@
 "currently_replying_in_an_hour"="Currently replying in an hour";
 "currently_replying_in_2_hours"="Currently replying in 2 hours";
 "currently_replying_in_few_hours"="Currently replying in few hours";
+
+/*Business hour offline response */
+"business_hour_offline"="We are away now";
 

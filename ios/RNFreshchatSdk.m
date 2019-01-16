@@ -108,6 +108,10 @@ RCT_EXPORT_METHOD(init:(NSDictionary *)options)
         config.showNotificationBanner = [[options objectForKey:@"showNotificationBanner"] boolValue];
     }
 
+    if(options [@"responseExpectationEnabled"]) {
+        config.responseExpectationVisible = [[options objectForKey:@"responseExpectationEnabled"] boolValue];
+    }
+
     [[Freshchat sharedInstance] initWithConfig:config];
 }
 
@@ -328,6 +332,7 @@ RCT_EXPORT_METHOD(isFreshchatNotification:(NSDictionary *)args callback:(RCTResp
     NSArray *keys = [args allKeys];
     if(keys.count == 0) {
         callback(@[@false]);
+        return;
     }
     if([[Freshchat sharedInstance]isFreshchatNotification:args]) {
         callback(@[@true]);
@@ -535,7 +540,7 @@ RCT_EXPORT_METHOD(openFreshchatDeeplink:(NSString *)link)
     NSDictionary *eventName = (id)notif.userInfo;
     if (eventName!=nil) {
         NSMutableDictionary *dic = [[NSMutableDictionary alloc] init];
-        [dic setValue:eventName[@"user_action"] forKey:@"user_action"];
+        [dic setValue:eventName[@"action"] forKey:@"user_action"];
         // Token status not exposed in iOS yet
         [self sendEventWithName:FRESHCHAT_ACTION_USER_ACTIONS body:dic];
     }

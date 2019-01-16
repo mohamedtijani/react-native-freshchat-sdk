@@ -59,8 +59,8 @@ public class RNFreshchatSdk extends ReactContextBaseJavaModule {
 
         restoreIdUpdatesReceiver = new FreshchatSDKBroadcastReceiver(reactcontext, Freshchat.FRESHCHAT_USER_RESTORE_ID_GENERATED);
         messageCountUpdatesReceiver = new FreshchatSDKBroadcastReceiver(reactcontext, Freshchat.FRESHCHAT_ACTION_MESSAGE_COUNT_CHANGED);
-        userActionsReceiver = new FreshchatSDKBroadcastReceiver(reactcontext, Freshchat.FRESHCHAT_ACTION_USER_ACTIONS);
-        notificationClickReceiver = new FreshchatSDKBroadcastReceiver(reactcontext, Freshchat.FRESHCHAT_ACTION_NOTIFICATION_CLICKED);
+        userActionsReceiver = new FreshchatSDKBroadcastReceiver(reactcontext, Freshchat.FRESHCHAT_EVENTS);
+        notificationClickReceiver = new FreshchatSDKBroadcastReceiver(reactcontext, Freshchat.FRESHCHAT_ACTION_NOTIFICATION_INTERCEPTED);
     }
 
     @Override
@@ -80,9 +80,9 @@ public class RNFreshchatSdk extends ReactContextBaseJavaModule {
         constants.put("ACTION_USER_RESTORE_ID_GENERATED", Freshchat.FRESHCHAT_USER_RESTORE_ID_GENERATED);
         constants.put("ACTION_UNREAD_MESSAGE_COUNT_CHANGED", Freshchat.FRESHCHAT_ACTION_MESSAGE_COUNT_CHANGED);
         constants.put("ACTION_USER_INTERACTION", FRESHCHAT_ACTION_USER_INTERACTION);
-        constants.put("ACTION_USER_ACTIONS", Freshchat.FRESHCHAT_ACTION_USER_ACTIONS);
+        constants.put("ACTION_USER_ACTIONS", Freshchat.FRESHCHAT_EVENTS);
         constants.put(ACTION_OPEN_LINKS, ACTION_OPEN_LINKS);
-        constants.put("FRESHCHAT_ACTION_NOTIFICATION_CLICK_LISTENER", Freshchat.FRESHCHAT_ACTION_NOTIFICATION_CLICKED);
+        constants.put("FRESHCHAT_ACTION_NOTIFICATION_CLICK_LISTENER", Freshchat.FRESHCHAT_ACTION_NOTIFICATION_INTERCEPTED);
         return constants;
     }
 
@@ -152,6 +152,9 @@ public class RNFreshchatSdk extends ReactContextBaseJavaModule {
             }
             if (initArgs.hasKey("teamMemberInfoVisible")) {
                 freshchatConfig.setTeamMemberInfoVisible(initArgs.getBoolean("teamMemberInfoVisible"));
+            }
+            if (initArgs.hasKey("responseExpectationEnabled")) {
+                freshchatConfig.setResponseExpectationEnabled(initArgs.getBoolean("responseExpectationEnabled"));
             }
             Freshchat.getInstance(getContext()).init(freshchatConfig);
         } catch (Exception e) {
@@ -410,7 +413,7 @@ public class RNFreshchatSdk extends ReactContextBaseJavaModule {
 
         HashMap<String, Object> params = readableMap.toHashMap();
         Bundle bundle = jsonToBundle(readableMap);
-        Freshchat.getInstance(getContext()).handleFcmMessage(getContext(), bundle);
+        Freshchat.handleFcmMessage(getContext(), bundle);
     }
 
     @ReactMethod
@@ -492,7 +495,7 @@ public class RNFreshchatSdk extends ReactContextBaseJavaModule {
             }
 
             if (readableMap.hasKey("overrideNotificationClickListener")) {
-                notificationConfig.setOverrideNotificationClickListener(readableMap.getBoolean("overrideNotificationClickListener"));
+                notificationConfig.setNotificationInterceptionEnabled(readableMap.getBoolean("overrideNotificationClickListener"));
             }
 
             Freshchat.getInstance(getContext()).setNotificationConfig(notificationConfig);
@@ -540,7 +543,7 @@ public class RNFreshchatSdk extends ReactContextBaseJavaModule {
         } else {
             Log.i(LOG_TAG, "openFreshchatDeeplink: React: Application Context");
         }
-        Freshchat.getInstance(getContext()).openFreshchatDeeplink(getContext(), link);
+        Freshchat.openFreshchatDeeplink(getContext(), link);
     }
 
     private FreshchatUserInteractionListener userInteractionListener = new FreshchatUserInteractionListener() {
@@ -570,7 +573,7 @@ public class RNFreshchatSdk extends ReactContextBaseJavaModule {
     public void registerForUserActions(boolean register) {
         Log.i(LOG_TAG, "registerForUserActions: " + register);
         if (register) {
-            registerBroadcastReceiver(userActionsReceiver, Freshchat.FRESHCHAT_ACTION_USER_ACTIONS);
+            registerBroadcastReceiver(userActionsReceiver, Freshchat.FRESHCHAT_EVENTS);
         } else {
             unregisterBroadcastReceiver(userActionsReceiver);
         }
@@ -580,7 +583,7 @@ public class RNFreshchatSdk extends ReactContextBaseJavaModule {
     public void registerNotificationClickListener(boolean register) {
         Log.i(LOG_TAG, "registerNotificationClickListener: " + register);
         if (register) {
-            registerBroadcastReceiver(notificationClickReceiver, Freshchat.FRESHCHAT_ACTION_NOTIFICATION_CLICKED);
+            registerBroadcastReceiver(notificationClickReceiver, Freshchat.FRESHCHAT_ACTION_NOTIFICATION_INTERCEPTED);
         } else {
             unregisterBroadcastReceiver(notificationClickReceiver);
         }
@@ -643,9 +646,9 @@ public class RNFreshchatSdk extends ReactContextBaseJavaModule {
 
             WritableMap map = new WritableNativeMap();
             if (intent.getExtras() != null) {
-                if (Freshchat.FRESHCHAT_ACTION_USER_ACTIONS.equals(eventName)) {
-                    map.putString("user_action", intent.getExtras().getString("user_action"));
-                } else if (Freshchat.FRESHCHAT_ACTION_NOTIFICATION_CLICKED.equals(eventName)) {
+                if (Freshchat.FRESHCHAT_EVENTS.equals(eventName)) {
+                    map.putString("user_action", intent.getExtras().getString("action"));
+                } else if (Freshchat.FRESHCHAT_ACTION_NOTIFICATION_INTERCEPTED.equals(eventName)) {
                     map.putString("url", intent.getExtras().getString("FRESHCHAT_DEEPLINK"));
                 }
             }

@@ -1,5 +1,24 @@
 # Freshchat React Native SDK
 
+## 0.5.6 (2019-1-10)
+
+### Enhancement
+* Upgrade Freshchat Android SDK version to 2.2.0
+* Upgrade Freshchat iOS SDK version to 2.2.0
+
+### Bug Fixes
+* Trigger unread count count callback only once
+
+### Breaking Change
+
+* If you have modified strings.xml to hide response expectation messages, it will continue to work in all cases except when away. You can set `responseExpectationEnabled` flag in FreshchatConfig as `false` to completely hide response expectations.
+
+## 0.5.5 (2018-12-29)
+
+### Enhancement
+* Upgrade Freshchat Android SDK version to 2.1.0
+* Upgrade Freshchat iOS SDK version to 2.1.0
+
 ## 0.5.4 (2018-12-13)
 
 ### Breaking Changes

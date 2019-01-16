@@ -6,7 +6,7 @@ android {
 
     defaultConfig {
         minSdkVersion 16
-        targetSdkVersion 23
+        targetSdkVersion 26
         versionCode 1
         versionName "1.0"
     }
@@ -38,5 +38,5 @@ buildscript {
 dependencies {
     compile "com.facebook.react:react-native:+"
     compile 'com.google.android.gms:play-services-gcm:11.+'
-    compile 'com.github.freshdesk:freshchat-android:rn-0.5.4-SNAPSHOT'
+    compile 'com.github.freshdesk:freshchat-android:2.2.0'
 }
