@@ -1,5 +1,17 @@
 # Freshchat React Native SDK
 
+## 0.5.8 (2019-3-7)
+
+### Enhancement
+* Improvements in logic to load new messages for conversations
+
+## 0.5.7 (2019-2-15)
+
+### Enhancement
+* Added API to dismiss Freshchat screens in Android
+* Upgrade Freshchat Android SDK version to 2.4.0
+* Upgrade Freshchat iOS SDK version to 2.4.1
+
 ## 0.5.6 (2019-1-10)
 
 ### Enhancement
